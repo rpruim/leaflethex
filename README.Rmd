@@ -7,7 +7,9 @@ output: github_document
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
 )
 ```
 # leaflethex
@@ -15,20 +17,32 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of leaflethex is to ...
+The goal of leaflethex is to create hexbin layers that can be added to plots made
+with the leaflet package.
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+This is a work in progress and is not yet a functional R package.  Stay tuned!
 
-```{r cars}
-summary(cars)
+## Installation
+
+You can install the released version of leaflethex from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("leaflethex")
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
+And the development version from [GitHub](https://github.com/) with:
 
-You can also embed plots, for example:
+``` r
+# install.packages("devtools")
+devtools::install_github("rpruim/leaflethex")
+```
+## Example
 
-```{r pressure, echo = FALSE}
-plot(pressure)
+This is a basic example which shows you how to solve a common problem:
+
+```{r example, eval = FALSE}
+library(leaflethex)
+## basic example code
 ```
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub!
+
