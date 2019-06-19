@@ -17,9 +17,11 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(htmlwidgets)
 library(htmltools)
+library(dplyr)
 library(leaflethex)
 ```
 
 ```{r}
 leaflet::leaflet() %>% leaflet::addTiles()
+leaflethex::leaflethexWidget("message")
 ```
