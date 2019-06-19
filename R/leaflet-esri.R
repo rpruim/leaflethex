@@ -10,6 +10,10 @@ esriPlugin <- htmlDependency("leaflet.esri", "1.0.3",
                              script = "esri-leaflet.js"
 )
 
+createPlugin <- function(name, version, src, script, stylesheet = NULL) {
+  htmlDependency(name, version, src = src, script = script, stylesheet = stylesheet)
+}
+
 # A function that takes a plugin htmlDependency object and adds
 # it to the map. This ensures that however or whenever the map
 # gets rendered, the plugin will be loaded into the browser.

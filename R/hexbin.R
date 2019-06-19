@@ -8,12 +8,13 @@
 
 add_hexbin <-
   function(map) {
-    set.seed(123)
-
-    df<-data.frame(long=20,lat=runif(20))
+    hexbinJS <- readr::read_file("js/hexbin.js")
+    hexbinPlugin <- createPlugin("Hexbin", "1.0.0", src= c(file="C:/Users/jason/Documents/GitHub/ExampleRPackage/leaflethex/js"), "deps.js")
     map <- map %>%
-      leaflet::addProviderTiles(providers$OpenStreetMap)
-    leaflet::addCircles(df)
+    registerPlugin(hexbinPlugin) %>%
+      # Add your custom JS logic here. The `this` keyword
+      # refers to the Leaflet (JS) map object.
+      onRender(hexbinJS)
 
     map  # show the map
   }
