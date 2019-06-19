@@ -22,6 +22,7 @@ library(leaflethex)
 ```
 
 ```{r}
-leaflet::leaflet() %>% leaflet::addTiles()
-leaflethex::leaflethexWidget("message")
+leaflet::leaflet() %>% 
+  leaflet::addTiles() %>% 
+  add_hexbin()
 ```
