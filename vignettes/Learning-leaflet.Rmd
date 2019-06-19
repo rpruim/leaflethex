@@ -1,0 +1,25 @@
+---
+title: "Learning-leaflet"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Learning-leaflet}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(htmlwidgets)
+library(htmltools)
+library(leaflethex)
+```
+
+```{r}
+leaflet::leaflet() %>% leaflet::addTiles()
+```

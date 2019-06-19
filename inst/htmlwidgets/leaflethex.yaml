@@ -1,0 +1,12 @@
+ dependencies:
+  - name: leaflet
+    version: 1.4.0
+    src: htmlwidgets/lib
+    script:
+      - deps.js
+  - name: leafletstyle
+    version: 1.1.1
+    src: htmlwidgets/lib
+    stylesheet:
+      - leaflet.css
+
