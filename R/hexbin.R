@@ -12,7 +12,8 @@ add_hexbin <-
     hexbinPlugin <-
       createPlugin("Hexbin", "1.0.0",
                    src= system.file("js", "", package = "leaflethex"),
-                   script = "deps.js")
+                   script = "deps.js",
+                   stylesheet = "hexbin.css")
     map <- map %>%
     registerPlugin(hexbinPlugin) %>%
       # Add your custom JS logic here. The `this` keyword
