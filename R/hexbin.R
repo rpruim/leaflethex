@@ -1,10 +1,8 @@
-library(leaflet)
-library(dplyr)
-#' @imports dplyr
 #' Hexbin Layers for Leaflet Plots
 #'
 #' Create hexbin layers for leaflet plots.
-
+#'
+#' @import dplyr
 #' @export
 #'
 
