@@ -8,8 +8,11 @@
 
 add_hexbin <-
   function(map) {
-    hexbinJS <- readr::read_file("js/hexbin.js")
-    hexbinPlugin <- createPlugin("Hexbin", "1.0.0", src= c(file="C:/Users/jason/Documents/GitHub/ExampleRPackage/leaflethex/js"), "deps.js")
+    hexbinJS <- readr::read_file(system.file("js", "hexbin.js", package = "leaflethex"))
+    hexbinPlugin <-
+      createPlugin("Hexbin", "1.0.0",
+                   src= system.file("js", "", package = "leaflethex"),
+                   script = "deps.js")
     map <- map %>%
     registerPlugin(hexbinPlugin) %>%
       # Add your custom JS logic here. The `this` keyword
