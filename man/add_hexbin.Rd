@@ -4,7 +4,8 @@
 \alias{add_hexbin}
 \title{Hexbin Layers for Leaflet Plots}
 \usage{
-add_hexbin(map)
+add_hexbin(map, data = NULL, radius = 8.5, opacity = 0.5,
+  duration = 500)
 }
 \description{
 Create hexbin layers for leaflet plots.

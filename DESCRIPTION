@@ -12,7 +12,9 @@ License: TBD
 Encoding: UTF-8
 LazyData: true
 Depends:
-  leaflet
+  leaflet,
+  htmltools,
+  htmlwidgets
 Imports:
   dplyr
 Suggests: 

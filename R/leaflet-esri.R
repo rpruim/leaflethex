@@ -1,7 +1,3 @@
-library(leaflet)
-library(htmltools)
-library(htmlwidgets)
-
 # This tells htmlwidgets about our plugin name, version, and
 # where to find the script. (There's also a stylesheet argument
 # if the plugin comes with CSS files.)
