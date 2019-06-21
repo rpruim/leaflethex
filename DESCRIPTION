@@ -14,7 +14,8 @@ LazyData: true
 Depends:
   leaflet,
   htmltools,
-  htmlwidgets
+  htmlwidgets,
+  stats
 Imports:
   dplyr
 Suggests: 
