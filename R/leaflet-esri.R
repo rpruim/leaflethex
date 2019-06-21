@@ -6,6 +6,7 @@ esriPlugin <- htmlDependency("leaflet.esri", "1.0.3",
                              script = "esri-leaflet.js"
 )
 
+# functional wrapper for htmlDependency constructor
 createPlugin <- function(name, version, src, script, stylesheet = NULL) {
   htmlDependency(name, version, src = src, script = script, stylesheet = stylesheet)
 }

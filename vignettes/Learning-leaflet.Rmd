@@ -29,7 +29,28 @@ df <- tibble(
   size = runif(100, 5, 20),
   color = sample(colors(), 100)
 )
+
+df2 <- tibble(
+  lat =  42.9634 + stats::rnorm(100),
+  lng = -85.6681 + stats::rnorm(100),
+  size = runif(100, 5, 20),
+  color = sample(colors(), 100)
+)
+
+
 leaflet::leaflet(df) %>% 
   leaflet::addTiles() %>% 
-  add_hexbin()
+  leaflethex::add_hexbin(
+    radius = 19, 
+    lowEndColor = "yellow", 
+    highEndColor="red",
+    stroke = FALSE) %>%
+  leaflethex::add_hexbin(
+    data = df2,
+    radius = 19, 
+    lowEndColor = "lightblue", 
+    highEndColor="purple",
+    stroke = TRUE)
 ```
+
+

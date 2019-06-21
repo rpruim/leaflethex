@@ -18,19 +18,27 @@ add_hexbin <-
     # Build MapData from given data or mapData if none provided
     mapData <- if(!is.null(data)) data else leaflet::getMapData(map)
     # Add parameters to be passed to the JS plugin
-    mapData$radius <- radius
-    mapData$opacity <- opacity
-    mapData$duration <- duration
-    mapData$lowEndColor <- lowEndColor
-    mapData$highEndColor <- highEndColor
+    mapData <- list(mapData = mapData,
+         radius = radius,
+         opacity = opacity,
+         duration = duration,
+         lowEndColor = lowEndColor,
+         highEndColor = highEndColor
+         )
+    class(mapData) <- "options"
     # Read JS function plugin
     hexbinJS <- readr::read_file(system.file("js", "hexbin.js", package = "leaflethex"))
     # Load JS plugin
+    args <- list("Hexbin",
+           "1.0.0",
+           src= system.file("js", "", package = "leaflethex"),
+           script = "deps.js"
+      )
+    if(stroke) {
+      args <- c(args, stylesheet="hexbin.css")
+    }
     hexbinPlugin <-
-      createPlugin("Hexbin", "1.0.0",
-                   src= system.file("js", "", package = "leaflethex"),
-                   script = "deps.js",
-                   stylesheet = if(stroke) "hexbin.css" else "")
+      do.call(createPlugin, args)
     # Pipe the the plugin into the given map
     map <- map %>%
     registerPlugin(hexbinPlugin) %>%
