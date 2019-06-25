@@ -2,11 +2,14 @@
 % Please edit documentation in R/addJSPlugin.R
 \name{pluginFactory}
 \alias{pluginFactory}
-\title{generic plugin Factory for pure JS leaflet libraries}
+\title{Create plugin functions to implement Leaflet pure-JS libraries in R}
 \usage{
 pluginFactory(name = "JSPlugin", location, jsfilename, dependencies,
   stylesheet = NULL)
 }
 \description{
-Create plugin functions to implement pure JS
+pluginFactory takes in a couple js files (code and dependencies)
+and creates a plugin function that applies this plugin to a given map. The new
+function also returns the map so it can be piped with the %>% operator like other
+leaflet functions
 }

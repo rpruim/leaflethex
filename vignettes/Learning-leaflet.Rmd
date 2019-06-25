@@ -44,16 +44,12 @@ leaflet(df, width = 600, height = 300) %>%
   add_hexbin(
     radius = 19, 
     lowEndColor = "yellow", 
-    highEndColor="red",
-    stroke = FALSE)
-leaflet(df2) %>%
-  addTiles() %>%
-  leaflethex::add_hexbin(
+    highEndColor="red") %>%
+  add_hexbin(
     data = df2,
     radius = 19, 
     lowEndColor = "lightblue", 
-    highEndColor="purple",
-    stroke = TRUE)
+    highEndColor="purple")
 ```
 
 

@@ -46,10 +46,19 @@ map <- leaflet::leaflet(df) %>%
   leaflethex::add_hexbin(
     radius = 19, 
     lowEndColor = "yellow", 
-    highEndColor="red",
-    stroke = FALSE)
+    highEndColor="red")
 map
 ```
+
+## Parameters for add\_hexbin
+
+  - `data` - data frame or tibble - alternate data to use for this
+    hexbin instead of default map data
+  - `radius` - numeric - choose the base size for the hexagons
+  - `opacity` - decimal between 0.0 and 1.0 - choose the percent of
+    opacity for the hexagons
+  - `lowEndColor` - choose the color for the smaller hexagons
+  - `highEndColor` - choose the color for the larger hexagons
 
 ## How to use the PluginFactory function
 
@@ -64,8 +73,7 @@ map
 
 4.  Create the plugin with `pluginFactory()` addJS \<-
     leaflethex::pluginFactory(“Some JS Plugin”, system.file(“js”, "“,
-    package
-    =”leaflethex“),”example.js“,”deps.js")
+    package =”leaflethex“),”example.js“,”deps.js")
     
     ``` r
       new_plugin_function <- pluginFactory("Name of Plugin", "path/of/parent/folder/"), "deps.js")

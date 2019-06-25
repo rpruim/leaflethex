@@ -37,7 +37,7 @@ df2 <- tibble(
 addJS <- 
   pluginFactory(
     "Some JS Plugin", 
-    system.file("js", "", package = "leaflethex"), "hexbin.js", "deps.js")
+    system.file("js", "", package = "leaflethex"), "hexbin.js", "deps.js", stylesheet="hexbin.css")
 
 leaflet(df2, width = 600, height = 300) %>% 
   addTiles() %>% 

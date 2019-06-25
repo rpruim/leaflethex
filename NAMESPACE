@@ -2,4 +2,3 @@
 
 export(add_hexbin)
 export(pluginFactory)
-import(dplyr)
