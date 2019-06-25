@@ -32,6 +32,8 @@ pluginFactory <- function(name = "JSPlugin", location, jsfilename, dependencies,
                          stylesheet = stylesheet)
   # Create a function for the user to use as a map pipe
   function(map, data=NULL, ...){
+    dots <- list(...)
+    print(dots)
     jscode <- readr::read_file(paste(location, jsfilename, sep="/"))
     # Get Default data if necessary
     if(is.null(data)) {
@@ -39,9 +41,9 @@ pluginFactory <- function(name = "JSPlugin", location, jsfilename, dependencies,
     } else {
       mapData <- data
     }
-    params <- list(mapData = mapData, params = "More Parameters")
+    dots$mapData = mapData
     # Load Dependencies and render JS Code with the data
-    registerPlugin(map, plugin) %>% onRender(jscode, params)
+    registerPlugin(map, plugin) %>% onRender(jscode, data=dots)
   }
 
 
