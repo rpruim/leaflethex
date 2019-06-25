@@ -51,6 +51,28 @@ map <- leaflet::leaflet(df) %>%
 map
 ```
 
+## How to use the PluginFactory function
+
+1.  Copy the desired chunk of JS code that modifies a map object into
+    its own file into a new folder (will refer to this as example.js)
+
+2.  Download the dependencies such as jquery, leaflet, d3 etc as .js
+    files
+
+3.  Combine these .js files into one .js file by simply copying them all
+    into the same file (will refer to this as deps.js)
+
+4.  Create the plugin with `pluginFactory()` addJS \<-
+    leaflethex::pluginFactory(“Some JS Plugin”, system.file(“js”, "“,
+    package
+    =”leaflethex“),”example.js“,”deps.js")
+    
+    ``` r
+      new_plugin_function <- pluginFactory("Name of Plugin", "path/of/parent/folder/"), "deps.js")
+      # Create a basic leaflet map
+      leaflet::leaflet() %>% addTiles() %>% new_plugin_function()
+    ```
+
 ## How to Use Pure JS Leaflet Plugin Functions in R
 
 1.  Create a new R script `add_plugin_name.R`
