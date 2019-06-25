@@ -44,7 +44,9 @@ leaflet::leaflet(df) %>%
     radius = 19, 
     lowEndColor = "yellow", 
     highEndColor="red",
-    stroke = FALSE) %>%
+    stroke = FALSE)
+leaflet::leaflet(df2) %>%
+  addTiles() %>%
   leaflethex::add_hexbin(
     data = df2,
     radius = 19, 

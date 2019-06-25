@@ -59,7 +59,7 @@ function(el, x, data = null) {
 
   var hexData = [];
   for(i=0; i< data.mapData.lat.length; i++){
-    var tuple = [data.mapData.lat[i], data.mapData.lng[i]]
+    var tuple = [data.mapData.lat[i], data.mapData.lng[i]];
     hexData.push(tuple);
   }
   hexLayer.data(hexData);
