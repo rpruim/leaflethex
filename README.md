@@ -55,23 +55,27 @@ map
   - `data` - data frame or tibble - alternate data to use for this
     hexbin instead of default map data
   - `radius` - numeric - choose the base size for the hexagons
-  - `opacity` - decimal between 0.0 and 1.0 - choose the percent of
+  - `opacity` - decimal - between 0.0 and 1.0 - choose the percent of
     opacity for the hexagons
-  - `lowEndColor` - choose the color for the smaller hexagons
-  - `highEndColor` - choose the color for the larger hexagons
+  - `lowEndColor` - string - choose the color for the smaller hexagons
+  - `highEndColor` - string - choose the color for the larger hexagons
 
-## How to use the PluginFactory function
+## How to use the Plugin Factory function
 
 1.  Copy the desired chunk of JS code that modifies a map object into
     its own file into a new folder (will refer to this as example.js)
 
-2.  Download the dependencies such as jquery, leaflet, d3 etc as .js
-    files
+2.  Edit the JS code to replace any reference of `map` with the keyword
+    `this` so that the loaded plugin can attach to the given map instead
+    of creating a new map
 
-3.  Combine these .js files into one .js file by simply copying them all
+3.  Download the libraries that the code depends on such as jquery,
+    leaflet, d3 etc as .js files
+
+4.  Combine these .js files into one .js file by simply copying them all
     into the same file (will refer to this as deps.js)
 
-4.  Create the plugin with `pluginFactory()` addJS \<-
+5.  Create the plugin with `pluginFactory()` addJS \<-
     leaflethex::pluginFactory(“Some JS Plugin”, system.file(“js”, "“,
     package =”leaflethex“),”example.js“,”deps.js")
     

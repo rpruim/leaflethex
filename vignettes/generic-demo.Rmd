@@ -42,7 +42,7 @@ addJS <-
 leaflet(df2, width = 600, height = 300) %>% 
   addTiles() %>% 
   addCircles(color = "red") %>%
-  addJS(radius = 20, highEndColor = "yellow")  # radius seems to work, highEnd Color not
+  addJS(radius = 20, highEndColor = "yellow")
 ```
 
 ```{r}
