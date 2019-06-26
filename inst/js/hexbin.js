@@ -15,12 +15,9 @@ function(el, x, data = null) {
   ];
 
   var buildOptions = function() {
+
+    // Initialize the object that will be filled and returned
     var result = {};
-    // Give the user a message if they don't set the radius to show what they can do
-    if(data.radius === undefined) {
-      console.log("The radius was not specified. Default is 8");
-      console.log("Parameters include: radius, radiusvariance, opacity, duration");
-    }
 
     // Create options object with given values or default values if none are provided
     parameters.forEach(entry => {
@@ -49,10 +46,12 @@ function(el, x, data = null) {
   hexLayer.colorScale().range(colorScale);
 
   // Set Radius range based on radius given through data parameter
-  var largestRadius = options.radius - 1 / options.radius;
+  var largestRadius = options.radius - 1 / options.radius; // 1/radius is a small buffer between hexagons
   var smallestRadius = options.radius / 2;
   if(options.uniformSize) smallestRadius = largestRadius;
   var radRange = [ smallestRadius, largestRadius ];
+
+  // Create Hex Layer
   hexLayer
   .radiusRange(radRange)
   .lat(function(d) { return d[0]; })

@@ -11,6 +11,7 @@
 #' @param uniformSize boolean for having uniformly sized hexagons or smaller hexagons for area containing fewer data points
 #' @param uniformColor a color that overrides lowEndColor and highEndColor to make the color uniform across the hexagon sizes.
 #' @note Do not use uniformColor and uniformSize together as it will not give any insights to the data
+#'
 #' @return map parameter, but with the hexbinLayer attached so that it can be used with the %>% pipe operator
 #' @export
 #'
@@ -18,7 +19,7 @@
 add_hexbin <-
   function(map,
            data = NULL,
-           radius = 8.5,
+           radius = 12,
            opacity = 0.5,
            duration = 500,
            lowEndColor = "white",

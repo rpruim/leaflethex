@@ -20,9 +20,16 @@ registerPlugin <- function(map, plugin) {
 #' function also returns the map so it can be piped with the %>% operator like other
 #' leaflet functions
 #'
-#'
+#' @param name A name for your plugin
+#' @param location The parent folder of your js file, dependency file, and css stylesheet
+#' @param jsfilename A .js filename relative to the parent folder at `location` that holds the source code for modifying the map object
+#' @param dependencies A .js filename(s) of all other js libraries the source code depends on
+#' @param stylesheet A .css stylesheet for adding styles to the entire page
+#' @return A function with arguments map, data, and ... to be used as a plugin to leaflet just like the leaflet::addCircles() function
 #' @export
 pluginFactory <- function(name = "JSPlugin", location, jsfilename, dependencies, stylesheet = NULL) {
+
+  # Create a HtmlDependency with the given files
   plugin <- createPlugin(name,
                          "1.0.0",
                          src=location,
@@ -30,18 +37,22 @@ pluginFactory <- function(name = "JSPlugin", location, jsfilename, dependencies,
                          stylesheet = stylesheet)
   # Create a function for the user to use as a map pipe
   function(map, data=NULL, ...){
+
+    # Collect extra arguments
     dots <- list(...)
+
     # Get Default data if necessary
-    if(is.null(data)) {
-      mapData <- leaflet::getMapData(map)
-    } else {
-      mapData <- data
-    }
+    mapData <- if(is.null(data)) leaflet::getMapData(map) else data
+
     # Attach mapData to the the parameters to be passed to the javascript
     dots$mapData = mapData
+
     # Ensure that the dots list and data is passed to the JS script is a JSON object
     class(dots) <- "options"
+
+    # Read in JS Code
     jscode <- readJSFileToString(location, jsfilename)
+
     # Load Dependencies and render JS Code with the data and extra parameters
     registerPlugin(map, plugin) %>% onRender(jscode, data=dots)
   }
