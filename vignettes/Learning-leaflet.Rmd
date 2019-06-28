@@ -1,5 +1,5 @@
 ---
-title: "Learning leaflethex"
+title: "Hexbin Layer Demo"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Learning-leaflet}
@@ -19,6 +19,7 @@ library(htmlwidgets)
 library(htmltools)
 library(dplyr)
 library(leaflethex)
+library(leaflet)
 ```
 
 ```{r}
@@ -33,14 +34,19 @@ df2 <- tibble(
 )
 
 df3 <- tibble(
-  lat =  51.8126 + rnorm(10000),
-  lng = 5.8372 + rnorm(10000)
+  lat =  51.8126 + rnorm(1000),
+  lng = 5.8372 + rnorm(1000)
+)
+
+df4 <- tibble(
+  lat =  30.2460 + rnorm(10000),
+  lng = -87.7008 + rnorm(10000)
 )
 ```
 
 
 ```{r}
-leaflet(df, width = 600, height = 300) %>% 
+leaflet::leaflet(df, width = 600, height = 300) %>% 
   addTiles() %>% 
   add_hexbin(
     radius = 19, 
@@ -48,15 +54,19 @@ leaflet(df, width = 600, height = 300) %>%
     highEndColor="red") %>%
   add_hexbin(
     data = df2,
-    radius = 19, 
+    radius = 16, 
     lowEndColor = "lightblue", 
     highEndColor="purple") %>%
   add_hexbin(
     data = df3,
     uniformSize = TRUE,
     lowEndColor = 'yellow',
-    highEndColor = 'red'
-  )
+    highEndColor = 'red') %>%
+  add_hexbin(
+    data = df4,
+    uniformColor = 'green',
+    radius = 18)
 ```
+
 
 

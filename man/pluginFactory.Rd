@@ -7,9 +7,44 @@
 pluginFactory(name = "JSPlugin", location, jsfilename, dependencies,
   stylesheet = NULL)
 }
+\arguments{
+\item{name}{A name for your plugin}
+
+\item{location}{The parent folder of your js file, dependency file, and css stylesheet}
+
+\item{jsfilename}{A .js filename relative to the parent folder at \code{location} that holds the source code for modifying the map object}
+
+\item{dependencies}{A .js filename(s) of all other js libraries the source code depends on}
+
+\item{stylesheet}{A .css stylesheet for adding styles to the entire page}
+}
+\value{
+A function with arguments map, data, and ... to be used as a plugin to leaflet just like the leaflet::addCircles() function
+}
 \description{
-pluginFactory takes in a couple js files (code and dependencies)
+\code{pluginFactory()} takes in a couple js files (code and dependencies)
 and creates a plugin function that applies this plugin to a given map. The new
 function also returns the map so it can be piped with the %>% operator like other
 leaflet functions
+}
+\examples{
+
+df <- data.frame(
+  lat =  42.9634 + stats::rnorm(100),
+  lng = -85.6681 + stats::rnorm(100),
+  size = runif(100, 5, 20),
+  color = sample(colors(), 100)
+)
+addJS <-
+  pluginFactory(
+    "Some JS Plugin",
+    system.file("js", "", package = "leaflethex"), "hexbin.js", "deps.js", stylesheet="hexbin.css")
+
+leaflet(df, width = 600, height = 300) \%>\%
+  addTiles() \%>\%
+  addJS(radius = 20, highEndColor = "yellow")
+
+}
+\seealso{
+Some code is used from \href{https://gist.github.com/jcheng5/c084a59717f18e947a17955007dc5f92}{this github gist by Joe Chang}
 }

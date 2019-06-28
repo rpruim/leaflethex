@@ -4,18 +4,20 @@
 \alias{add_hexbin}
 \title{Hexbin Layers for Leaflet Plots}
 \usage{
-add_hexbin(map, data = NULL, radius = 8.5, opacity = 0.5,
+add_hexbin(map, data = NULL, radius = 12, opacity = 0.5,
   duration = 500, lowEndColor = "white", highEndColor = "blue",
   uniformSize = FALSE, uniformColor = NULL)
 }
 \arguments{
-\item{map}{The leaflet map object to apply the hexbin layer to. Makes this function compatible with the %>% operator}
+\item{map}{The leaflet map object to apply the hexbin layer to. Makes this function compatible with the \code{\%>\%} operator}
 
 \item{data}{data frame or tibble - alternate data to use for this hexbin instead of default map data}
 
 \item{radius}{choose the base size for the hexagons}
 
 \item{opacity}{decimal between 0.0 and 1.0 - choose the percent of opacity for the hexagons}
+
+\item{duration}{I don't actually know what this does}
 
 \item{lowEndColor}{choose the color for the smaller hexagons}
 
@@ -26,11 +28,21 @@ add_hexbin(map, data = NULL, radius = 8.5, opacity = 0.5,
 \item{uniformColor}{a color that overrides lowEndColor and highEndColor to make the color uniform across the hexagon sizes.}
 }
 \value{
-map parameter, but with the hexbinLayer attached so that it can be used with the %>% pipe operator
+map parameter, but with the hexbinLayer attached so that it can be used with the \code{\%>\%} pipe operator
 }
 \description{
 Create hexbin layers for leaflet plots.
 }
 \note{
 Do not use uniformColor and uniformSize together as it will not give any insights to the data
+}
+\examples{
+leaflet::leaflet(data.frame(lat =  42.9634 + rnorm(1000),lng = -85.6681 + rnorm(1000))) \%>\%
+addTiles() \%>\% add_hexbin()
+
+leaflet::leaflet(data.frame(lat =  42.9634 + rnorm(1000),lng = -85.6681 + rnorm(1000))) \%>\%
+addTiles() \%>\% add_hexbin(radius=25, lowEndColor='purple', highEndColor='orange')
+}
+\seealso{
+A \href{https://jsfiddle.net/reblace/acjnbu8t/?utm_source=website&utm_medium=embed&utm_campaign=acjnbu8t}{JSFiddler Hexbin example} by Ryan
 }

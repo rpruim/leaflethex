@@ -2,3 +2,8 @@
 
 export(add_hexbin)
 export(pluginFactory)
+import(htmltools)
+import(htmlwidgets)
+import(leaflet)
+import(tibble)
+importFrom(dplyr,"%>%")

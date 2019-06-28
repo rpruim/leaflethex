@@ -1,5 +1,5 @@
 ---
-title: "Generic Demo"
+title: "Generic JS Plugin Demo"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{generic-demo}
