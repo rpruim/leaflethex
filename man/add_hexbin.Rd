@@ -17,7 +17,7 @@ add_hexbin(map, data = NULL, radius = 12, opacity = 0.5,
 
 \item{opacity}{decimal between 0.0 and 1.0 - choose the percent of opacity for the hexagons}
 
-\item{duration}{I don't actually know what this does}
+\item{duration}{positive integer milliseconds that the animation takes for drawing the hexagons}
 
 \item{lowEndColor}{choose the color for the smaller hexagons}
 

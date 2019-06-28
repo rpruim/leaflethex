@@ -7,7 +7,7 @@
 #' @param data data frame or tibble - alternate data to use for this hexbin instead of default map data
 #' @param radius choose the base size for the hexagons
 #' @param opacity decimal between 0.0 and 1.0 - choose the percent of opacity for the hexagons
-#' @param duration I don't actually know what this does
+#' @param duration positive integer milliseconds that the animation takes for drawing the hexagons
 #' @param lowEndColor choose the color for the smaller hexagons
 #' @param highEndColor choose the color for the larger hexagons
 #' @param uniformSize boolean for having uniformly sized hexagons or smaller hexagons for area containing fewer data points
