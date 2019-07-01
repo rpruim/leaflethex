@@ -2,17 +2,34 @@ Package: leaflethex
 Title: Hexbin Layers for Leaflet Maps
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "Randall",
+    c(person(given = "Randall",
            family = "Pruim",
            role = c("aut", "cre"),
            email = "rpruim@gmail.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+           comment = c(ORCID = "YOUR-ORCID-ID")),
+    person(given = "Jason",
+            family = "Klaassen",
+            role = c("aut"),
+            email = "jasonucc12@gmail.com"))
 Description: Adds functionality for hexbin layers to leaflet maps.
-License: TBD
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
+Depends:
+  leaflet,
+  htmltools,
+  htmlwidgets,
+  stats
+Imports:
+  dplyr,
+  readr,
+  tibble
 Suggests: 
-    spelling
+    spelling,
+    knitr,
+    rmarkdown,
+    tinytex
 Language: en-US
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
+VignetteBuilder: knitr

@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 The goal of leaflethex is to create hexbin layers that can be added to plots made
-with the leaflet package.
+with the leaflet package. 
 
 This is a work in progress and is not yet a functional R package.  Stay tuned!
 
@@ -38,11 +38,30 @@ devtools::install_github("rpruim/leaflethex")
 ```
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example which shows you how to add the hexbin layer to your leaflet map:
 
 ```{r example, eval = FALSE}
 library(leaflethex)
-## basic example code
+df = tibble(
+  lat = rnorm(100),
+  lng = rnorm(100)
+)
+map <- leaflet::leaflet(df) %>% 
+  leaflet::addTiles() %>% 
+  leaflethex::add_hexbin(
+    radius = 19, 
+    lowEndColor = "yellow", 
+    highEndColor="red")
+map
 ```
 
+## Parameters for add_hexbin
 
+* `data` - data frame or tibble - alternate data to use for this hexbin instead of default map data
+* `radius` - numeric - choose the base size for the hexagons
+* `opacity` - decimal - between 0.0 and 1.0 - choose the percent of opacity for the hexagons
+* `duration` - numeric - positive milliseconds taken by the renderer to draw the hexagons
+* `lowEndColor` - string - choose the color for the smaller hexagons
+* `highEndColor` - string - choose the color for the larger hexagons
+* `uniformSize` - boolean - choose if the size of the hexagons should be uniform or variable
+* `uniformColor` - string - choose a color to be uniform across the different sizes of hexagons instead of variable color

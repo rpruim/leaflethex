@@ -1,0 +1,166 @@
+---
+title: "leaflethex"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{leaflethex}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, include = FALSE}
+library(leaflethex)
+library(tibble)
+library(dplyr)
+```
+
+## The Purpose for Leaflethex
+
+`Leaflethex` is primarily a proof of concept for rendering leafletJS functionality in R by running the javascript though an htmlwidget.
+
+It also contains a function `add_hexbin()` for applying a hexbin layer to a leaflet map
+
+## How to use leaflethex for the Hexbin Layer
+
+If you are interested in using the hexbin plugin that comes along with leaflethex, the function `add_hexbin()` can be used which has a similar API to the rest of the Leaflet R functions that add layers to leaflet maps such as addCircles, addMarkers, etc.
+
+Here is an example:
+
+```{r}
+# Randomly generated data points
+data_points <- tibble(
+  lat =  42.9634 + rnorm(1000),
+  lng = -85.6681 + rnorm(1000)
+)
+# Create map with data points
+leaflet::leaflet(data_points) %>% addTiles() %>% add_hexbin()
+```
+
+## Features of add_hexbin()
+
+
+There are many parameters to modify the appearance of the hexbin layer. Some variable elements include radius, opacity, color etc.
+
+The data can also be specified with a parameter to be different than the map's data.
+
+For a more complete description of `add_hexbin()`, see the Reference tab
+
+For example,
+
+```{r}
+data_points <- tibble(
+  lat =  42.9634 + rnorm(1000),
+  lng = -85.6681 + rnorm(1000)
+)
+data_points2 <- tibble(
+  lat =  42.9634 + rnorm(1000),
+  lng = -95.6681 + rnorm(1000)
+)
+leaflet::leaflet(data_points) %>% 
+         addTiles() %>% 
+         add_hexbin() %>% 
+         add_hexbin(data=data_points2, 
+                    lowEndColor="yellow", 
+                    highEndColor="red")
+```
+
+## How to use leaflethex for arbitrary LeafletJS functionality
+
+#. Copy the desired chunk of JS code that modifies a map object into its own file into a new folder (will refer to this as example.js)
+#. Edit the JS code to replace any reference of `map` with the keyword `this` so that the loaded plugin can attach to the given map instead of creating a new map. Note: if the JS Code extensively uses DOM manipulation more work may be needed to make it compatible
+#. Download the libraries that the code depends on such as jquery, leaflet, d3 etc as .js files
+#. Combine these .js files into one .js file by simply copying them all into the same file (will refer to this as deps.js)
+#. Create the plugin with `pluginFactory()`
+
+    ```{r eval=FALSE}
+      new_plugin_function <- pluginFactory("Name of Plugin", "path/of/parent/folder/", "leaflet-script.js", "deps.js", "stylesheet.css")
+      # Create a basic leaflet map
+      leaflet::leaflet() %>% addTiles() %>% new_plugin_function()
+    ```
+
+## A More In-Depth Look at how JS Code is loaded into R
+
+#. Create a new R script `add_plugin_name.R`
+#. Add a single function that takes `map` as its first parameter and returns it as the return value
+
+    ```{r eval = FALSE}
+      add_hexbin <- function(map, data = NULL) {
+        data <- if(is.null(data)) leaflet::getMapData(map)
+        map
+      }
+    ```
+
+
+#. Add the leaflet-esri.R file to the R directory or copy its functions into the new R file
+#. Set aside the R Code and find the complete desired javascript code
+#. Copy the code into a .js file then wrap the code in a `function()` as below
+
+    ```js
+      function(el, x, data = null) {
+        // Your JS Code
+      }
+    ```
+    
+#. Modify this file to use the data parameter as needed, this parameter will be used for data points but also mapping options like radius or color or anything else one needs to pass into the js function
+
+#. Back to the R Code, create a Plugin with the `createPlugin()` function.
+
+    ```{r eval=FALSE}
+    # Load JS plugin - Hexbin Example
+    hexbinPlugin <- createPlugin(
+                      "Hexbin", "1.0.0", # Name and Verison
+                      src= system.file("js", "", package = "leaflethex"), #Parent folder of the     dependencies and stylesheets
+                      script = "deps.js", # JS File containing the dependencies
+                      stylesheet="hexbin.css") 
+    
+    ```
+    
+#. Using the JS file created earlier, load the code into a single String
+
+    ``` {r eval=FALSE}
+      hexbinJS <- readr::read_file(system.file("js", "hexbin.js", package = "leaflethex"))
+    ```
+
+#. Apply the Plugin to the map parameter and render the Javascript in the recently created string with the `OnRender()` function
+
+    ```{r eval=FALSE}
+      # Pipe the the plugin into the given map
+      map <- map %>%
+      registerPlugin(hexbinPlugin) %>%
+        # Add your custom JS logic here. The `this` keyword
+        # refers to the Leaflet (JS) map object.
+        onRender(hexbinJS, data=mapData)
+    
+      map  # show the map
+    ```
+
+
+#. To pass Data from R to JS, create an S3 Object with the desired data
+
+    ```{r eval=FALSE}
+       # Build MapData from given data or mapData if none provided
+       mapData <- if(!is.null(data)) data else leaflet::getMapData(map)
+       # Add parameters to be passed to the JS plugin
+       mapData <- list(mapData = mapData,
+           radius = radius,
+           opacity = opacity, # Additional Parameters
+           duration = duration,
+           lowEndColor = lowEndColor,
+           highEndColor = highEndColor
+       )
+       class(mapData) <- "options" # This is necessary to pass the object as a JSON object instead of a JSON Array, much easier to deal with on the JS side
+    ```
+
+#. Then as shown above, it should be passed to the data parameter of OnRender
+
+#. The Object comes out the outside in the JS World as a JSON Object
+
+    ![JS-Data](jsdata.png)
+
+

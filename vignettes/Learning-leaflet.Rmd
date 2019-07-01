@@ -1,0 +1,72 @@
+---
+title: "Hexbin Layer Demo"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Learning-leaflet}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, include = FALSE}
+library(htmlwidgets)
+library(htmltools)
+library(dplyr)
+library(leaflethex)
+library(leaflet)
+```
+
+```{r}
+df <- tibble(
+  lat = rnorm(100),
+  lng = rnorm(100)
+)
+
+df2 <- tibble(
+  lat =  42.9634 + rnorm(10000),
+  lng = -85.6681 + rnorm(10000)
+)
+
+df3 <- tibble(
+  lat =  51.8126 + rnorm(1000),
+  lng = 5.8372 + rnorm(1000)
+)
+
+df4 <- tibble(
+  lat =  30.2460 + rnorm(10000),
+  lng = -87.7008 + rnorm(10000)
+)
+```
+
+
+```{r}
+leaflet::leaflet(df, width = 600, height = 300) %>% 
+  addTiles() %>% 
+  add_hexbin(
+    radius = 19, 
+    lowEndColor = "yellow", 
+    highEndColor="red") %>%
+  add_hexbin(
+    data = df2,
+    radius = 16, 
+    lowEndColor = "lightblue", 
+    highEndColor="purple") %>%
+  add_hexbin(
+    data = df3,
+    uniformSize = TRUE,
+    lowEndColor = 'yellow',
+    highEndColor = 'red') %>%
+  add_hexbin(
+    data = df4,
+    uniformColor = 'green',
+    radius = 18)
+```
+
+
+
