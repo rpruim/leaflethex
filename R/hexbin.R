@@ -34,7 +34,9 @@ add_hexbin <-
            lowEndColor = "white",
            highEndColor = "blue",
            uniformSize = FALSE,
-           uniformColor = NULL) {
+           uniformColor = NULL,
+           summaryFunction = NULL,
+           variable = NULL) {
 
     # Build MapData from given data or mapData if none provided
     mapData <- if(!is.null(data)) data else leaflet::getMapData(map)
@@ -55,5 +57,7 @@ add_hexbin <-
                    lowEndColor = lowEndColor,
                    highEndColor = highEndColor,
                    uniformSize = uniformSize,
-                   uniformColor = uniformColor)
+                   uniformColor = uniformColor,
+                   summaryFunction = summaryFunction,
+                   variable = variable)
   }

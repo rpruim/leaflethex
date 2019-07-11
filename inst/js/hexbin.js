@@ -3,6 +3,54 @@ function(el, x, data = null) {
   // Utility function for saving defaults for data parameters
   var param = function(name, defaultValue) { return { name: name, defaultValue : defaultValue}  };
 
+  // Built-in Summary Functions
+
+  var summaryFunctions = {
+    count: function(d) {
+      return d.length;
+    },
+    sum: function(d) {
+        var result = 0;
+        d.forEach(bin => {
+          result += bin.o[2];
+        });
+        return result;
+    },
+    max: function(d) {
+        var result = Number.MIN_VALUE;
+        d.forEach(bin => {
+          result = result > bin.o[2] ? result : bin.o[2] ;
+        });
+        return result;
+    },
+    min: function(d) {
+        var result = Number.MAX_VALUE;
+        d.forEach(bin => {
+          result = result < bin.o[2] ? result : bin.o[2] ;
+        });
+        return result;
+    },
+    mean: function(d) {
+      var result = 0;
+      d.forEach(bin => {
+        result += bin.o[2];
+      });
+      result /= d.length;
+      return result;
+    },
+  };
+  var custom = true;
+  Object.keys(summaryFunctions).forEach(key => {
+    if(key == options.summaryFunction) {
+      custom = false;
+    }
+  });
+  if(custom) {
+    summaryFunctions.custom = Function('"use strict";return (' + options.summaryFunction + ')');
+    options.summaryFunction = "custom";
+  }
+
+
   // Create a list of accepted parameters to this script
   var parameters = [
     param("radius", 12),
@@ -11,7 +59,9 @@ function(el, x, data = null) {
     param("lowEndColor", 'white'),
     param("highEndColor", 'blue'),
     param("uniformSize", false),
-    param("uniformColor", 'blue')
+    param("uniformColor", 'blue'),
+    param("summaryFunction", "count"),
+    param("variable", undefined)
   ];
 
   var buildOptions = function() {
@@ -36,6 +86,7 @@ function(el, x, data = null) {
   // Set Options based on parameters given by the data parameters
   var options = buildOptions();
   console.log(options);
+  console.log(data.mapData);
 
   // Add Options to hexlayer
   var hexLayer = L.hexbinLayer(options).addTo(this);
@@ -53,19 +104,37 @@ function(el, x, data = null) {
   if(options.uniformSize) smallestRadius = largestRadius;
   var radRange = [ smallestRadius, largestRadius ];
 
+  // Load in Desired Summary Function
+
+
   // Create Hex Layer
   hexLayer
   .radiusRange(radRange)
   .lat(function(d) { return d[0]; })
   .lng(function(d) { return d[1]; })
-  .colorValue(function(d) { return d.length; })
-  .radiusValue(function(d) { return d.length; });
+  .colorValue(summaryFunctions[options.summaryFunction])
+  .radiusValue(summaryFunctions[options.summaryFunction]); // Choose summary function based off of parameter inside the data object
 
   // Add Data to the Hex Layer
   var hexData = [];
+  var auxData = [];
+  Object.keys(data.mapData).forEach(key => {
+    if(key == "lat" || key == "lng") return;
+    var entry = data.mapData[key];
+    if(Array.isArray(entry) && entry.length == data.mapData.lat.length) {
+      auxData.push(entry);
+    }
+  });
   for(i=0; i< data.mapData.lat.length; i++){
     var tuple = [data.mapData.lat[i], data.mapData.lng[i]];
     hexData.push(tuple);
+  }
+  if(auxData !== undefined) {
+    for(i=0; i < hexData.length; i++) {
+      auxData.forEach(aux => {
+        hexData[i].push(aux[i]);
+      });
+    }
   }
   hexLayer.data(hexData);
 
