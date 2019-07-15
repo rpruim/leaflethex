@@ -12,10 +12,14 @@
 #' @param highEndColor choose the color for the larger hexagons
 #' @param uniformSize boolean for having uniformly sized hexagons or smaller hexagons for area containing fewer data points
 #' @param uniformColor a color that overrides lowEndColor and highEndColor to make the color uniform across the hexagon sizes.
+#' @param sizeSummaryFunction a string that specifies which summary function to use on sizevar to modulate the size of the hexagons. The options are 'count', 'max', 'min', and 'mean'.
+#' @param sizevar a string that specifies which variable in the user specified data frame will be used to calculate the size of the hexagons.
+#' @param colorSummaryFunction a string that specifies which summary function to use on colorvar to modulate the color of the hexagons. The options are 'count', 'max', 'min', and 'mean'.
+#' @param colorvar a string that specifies which variable in the user specified data frame will be used to calculate the color of the hexagons.
 #' @note Do not use uniformColor and uniformSize together as it will not give any insights to the data
 #' @seealso A [JSFiddler Hexbin example](https://jsfiddle.net/reblace/acjnbu8t/?utm_source=website&utm_medium=embed&utm_campaign=acjnbu8t) by Ryan
 #' @return map parameter, but with the hexbinLayer attached so that it can be used with the `%>%` pipe operator
-#'
+#' @note If colorSummaryFunction and colorvar are not specified, the color will mirror the sizevar unless uniform color set to TRUE.
 #' @examples
 #' leaflet::leaflet(data.frame(lat =  42.9634 + rnorm(1000),lng = -85.6681 + rnorm(1000))) %>%
 #' addTiles() %>% add_hexbin()
@@ -35,8 +39,10 @@ add_hexbin <-
            highEndColor = "blue",
            uniformSize = FALSE,
            uniformColor = NULL,
-           summaryFunction = NULL,
-           variable = NULL) {
+           sizeSummaryFunction = "count",
+           sizevar = NULL,
+           colorSummaryFunction = "count",
+           colorvar = NULL) {
 
     # Build MapData from given data or mapData if none provided
     mapData <- if(!is.null(data)) data else leaflet::getMapData(map)
@@ -48,6 +54,37 @@ add_hexbin <-
 
     # Create the Hexbin Plugin
     addHex <- pluginFactory("Hexbin", system.file("js", "", package = "leaflethex"), "hexbin.js", "deps.js", "hexbin.css")
+    supportedFunctions <- list("count", "sum", "max", "min", "mean")
+    # Display warning about unsupported functions
+    warnOfCustomFunctions <- function(summaryFunction) {
+      # Check if the function is supported
+      if(! (summaryFunction %in% supportedFunctions)) {
+        warnStart <- "The function provided was not a supported function ("
+        supportedFunctionsString <- paste(supportedFunctions, collapse="  ")
+        warnCustomFunctionMessage <- "). Custom functions must be valid JS functions of the form: "
+        warnFunctionTemplate <- "'function(d) { //Calculate and Return Value }'"
+        warning(paste(warnStart, supportedFunctionsString, warnCustomFunctionMessage, warnFunctionTemplate, sep=""))
+      }
+    }
+
+    # Display for both summary functions
+    warnOfCustomFunctions(sizeSummaryFunction)
+    warnOfCustomFunctions(colorSummaryFunction)
+
+    # Display warning that both variables are unset
+    if(is.null(sizevar) && is.null(colorvar)) {
+      line1 <- "No variables have been set for sizevar or colorvar."
+      line2 <- "The hexbin will calculate a simple count of data points per hex"
+      warning(paste(line1, line2))
+    }
+
+    # If only one is set make the other one mirror (overridden by uniformColor/uniformSize)
+    if(is.null(sizevar) && !is.null(colorvar)) {
+      sizeSummaryFunction <- colorSummaryFunction
+    }
+    if(!is.null(sizevar) && is.null(colorvar)) {
+      colorSummaryFunction <- sizeSummaryFunction
+    }
 
     # Pipe the Hexbin into the map
     map %>% addHex(data=mapData,
@@ -58,6 +95,8 @@ add_hexbin <-
                    highEndColor = highEndColor,
                    uniformSize = uniformSize,
                    uniformColor = uniformColor,
-                   summaryFunction = summaryFunction,
-                   variable = variable)
+                   sizeSummaryFunction = sizeSummaryFunction,
+                   sizevar = sizevar,
+                   colorSummaryFunction = colorSummaryFunction,
+                   colorvar = colorvar)
   }

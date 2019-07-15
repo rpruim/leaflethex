@@ -1,15 +1,15 @@
 Package: leaflethex
 Title: Hexbin Layers for Leaflet Maps
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: 
     c(person(given = "Randall",
            family = "Pruim",
-           role = c("aut", "cre"),
+           role = c("aut"),
            email = "rpruim@gmail.com",
            comment = c(ORCID = "YOUR-ORCID-ID")),
     person(given = "Jason",
             family = "Klaassen",
-            role = c("aut"),
+            role = c("aut", "cre"),
             email = "jasonucc12@gmail.com"))
 Description: Adds functionality for hexbin layers to leaflet maps.
 License: GPL-3

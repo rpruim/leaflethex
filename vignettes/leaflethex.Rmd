@@ -40,7 +40,7 @@ data_points <- tibble(
   a = rnorm(1000, mean=0, sd=2)
 )
 # Create map with data points
-leaflet::leaflet(data_points) %>% addTiles() %>% add_hexbin(summaryFunction="count")
+leaflet::leaflet(data_points) %>% addTiles() %>% add_hexbin(sizeSummaryFunction="count", sizevar="a")
 ```
 
 ## Features of add_hexbin()

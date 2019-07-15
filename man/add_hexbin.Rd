@@ -6,8 +6,9 @@
 \usage{
 add_hexbin(map, data = NULL, radius = 12, opacity = 0.5,
   duration = 500, lowEndColor = "white", highEndColor = "blue",
-  uniformSize = FALSE, uniformColor = NULL, summaryFunction = NULL,
-  variable = NULL)
+  uniformSize = FALSE, uniformColor = NULL,
+  sizeSummaryFunction = "count", sizevar = NULL,
+  colorSummaryFunction = "count", colorvar = NULL)
 }
 \arguments{
 \item{map}{The leaflet map object to apply the hexbin layer to. Makes this function compatible with the \code{\%>\%} operator}
@@ -27,6 +28,14 @@ add_hexbin(map, data = NULL, radius = 12, opacity = 0.5,
 \item{uniformSize}{boolean for having uniformly sized hexagons or smaller hexagons for area containing fewer data points}
 
 \item{uniformColor}{a color that overrides lowEndColor and highEndColor to make the color uniform across the hexagon sizes.}
+
+\item{sizeSummaryFunction}{a string that specifies which summary function to use on sizevar to modulate the size of the hexagons. The options are 'count', 'max', 'min', and 'mean'.}
+
+\item{sizevar}{a string that specifies which variable in the user specified data frame will be used to calculate the size of the hexagons.}
+
+\item{colorSummaryFunction}{a string that specifies which summary function to use on colorvar to modulate the color of the hexagons. The options are 'count', 'max', 'min', and 'mean'.}
+
+\item{colorvar}{a string that specifies which variable in the user specified data frame will be used to calculate the color of the hexagons.}
 }
 \value{
 map parameter, but with the hexbinLayer attached so that it can be used with the \code{\%>\%} pipe operator
@@ -36,6 +45,8 @@ Create hexbin layers for leaflet plots.
 }
 \note{
 Do not use uniformColor and uniformSize together as it will not give any insights to the data
+
+If colorSummaryFunction and colorvar are not specified, the color will mirror the sizevar unless uniform color set to TRUE.
 }
 \examples{
 leaflet::leaflet(data.frame(lat =  42.9634 + rnorm(1000),lng = -85.6681 + rnorm(1000))) \%>\%
