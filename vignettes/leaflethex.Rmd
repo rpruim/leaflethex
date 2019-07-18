@@ -36,11 +36,10 @@ Here is an example:
 # Randomly generated data points
 data_points <- tibble(
   lat =  42.9634 + rnorm(1000),
-  lng = -85.6681 + rnorm(1000),
-  a = rnorm(1000, mean=0, sd=2)
+  lng = -85.6681 + rnorm(1000)
 )
 # Create map with data points
-leaflet::leaflet(data_points) %>% addTiles() %>% add_hexbin(sizeSummaryFunction="count", sizevar="a")
+leaflet::leaflet(data_points) %>% addTiles() %>% add_hexbin()
 ```
 
 ## Features of add_hexbin()

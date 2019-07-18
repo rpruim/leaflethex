@@ -9,6 +9,7 @@ date: "July 15, 2019"
 ## Test environments
 
 * win-builder
+* linux server
 
 
 ## R CMD check results

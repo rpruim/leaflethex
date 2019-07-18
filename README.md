@@ -53,14 +53,40 @@ map
 
   - `data` - data frame or tibble - alternate data to use for this
     hexbin instead of default map data
+
   - `radius` - numeric - choose the base size for the hexagons
+
   - `opacity` - decimal - between 0.0 and 1.0 - choose the percent of
     opacity for the hexagons
+
   - `duration` - numeric - positive milliseconds taken by the renderer
     to draw the hexagons
+
   - `lowEndColor` - string - choose the color for the smaller hexagons
+
   - `highEndColor` - string - choose the color for the larger hexagons
+    
+    *Note About Coloring* - For best readable results, use colors that
+    have high contrast in hue and shade such as red and yellow. White is
+    generally a safe option for the `lowEndColor`, but the eye is better
+    at picking up changes in hue than changes in shade.
+
   - `uniformSize` - boolean - choose if the size of the hexagons should
     be uniform or variable
+
   - `uniformColor` - string - choose a color to be uniform across the
     different sizes of hexagons instead of variable color
+
+  - `sizeSummaryFunction` - string - choose a function from ‘count’,
+    ‘sum’, ‘max’, ‘min’, ‘mean’, or ‘median’ or give a valid JS
+    function (in development)
+
+  - `sizevar` - string - the name of the variable used to calculate the
+    size of the hex using the `sizeSummaryFunction`
+
+  - `colorSummaryFunction` - string - choose a function from ‘count’,
+    ‘sum’, ‘max’, ‘min’, ‘mean’, or ‘median’ or give a valid JS
+    function (in development)
+
+  - `colorvar` - string - the name of the variable used to calculate the
+    color of the hex using the `colorSummaryFunction`

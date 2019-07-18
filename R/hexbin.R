@@ -49,12 +49,10 @@ add_hexbin <-
     if(uniformSize && is.null(uniformColor)) {
       warning("Using uniformSize and uniformColor together will not provide any insights into the data")
     }
-    # Ensure the data passed to the JS script is a JSON object
-    class(mapData) <- "options"
 
     # Create the Hexbin Plugin
     addHex <- pluginFactory("Hexbin", system.file("js", "", package = "leaflethex"), "hexbin.js", "deps.js", "hexbin.css")
-    supportedFunctions <- list("count", "sum", "max", "min", "mean")
+    supportedFunctions <- list("count", "sum", "max", "min", "mean", "median")
     # Display warning about unsupported functions
     warnOfCustomFunctions <- function(summaryFunction) {
       # Check if the function is supported
@@ -78,6 +76,14 @@ add_hexbin <-
       warning(paste(line1, line2))
     }
 
+    # Throw error if the variable chosen is not present in the data frame
+    if(!is.null(sizevar) && ! sizevar %in% colnames(mapData)) {
+      stop("The specified 'sizevar' being used is not in the given data frame. Perhaps there was a typo. 'sizevar' must be a string of the variable name")
+    }
+    if(!is.null(colorvar) && ! colorvar %in% colnames(mapData)) {
+      stop("The specified 'colorvar' being used is not in the given data frame. Perhaps there was a typo. 'colorvar' must be a string of the variable name")
+    }
+
     # If only one is set make the other one mirror (overridden by uniformColor/uniformSize)
     if(is.null(sizevar) && !is.null(colorvar)) {
       sizeSummaryFunction <- colorSummaryFunction
@@ -85,7 +91,8 @@ add_hexbin <-
     if(!is.null(sizevar) && is.null(colorvar)) {
       colorSummaryFunction <- sizeSummaryFunction
     }
-
+    # Ensure the data passed to the JS script is a JSON object
+    class(mapData) <- "options"
     # Pipe the Hexbin into the map
     map %>% addHex(data=mapData,
                    radius = radius,

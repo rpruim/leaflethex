@@ -69,4 +69,52 @@ leaflet::leaflet(df, width = 600, height = 300) %>%
 ```
 
 
+## Calculating the Hexbin with data other than the latitude and longitude
+
+```{r}
+kids_df <- tibble(
+  lat =  33.2460 + rnorm(10000),
+  lng = -89.7008 + rnorm(10000),
+  kidsPerHousehold = sample(x = 1:5, size = 10000, replace = TRUE)
+)
+temp_df <- tibble(
+  lat =  42.2460 + rnorm(10000),
+  lng = -87.7008 + rnorm(10000),
+  temp = sample(x = 20:100, size = 10000, replace = TRUE)
+)
+both_df <- tibble(
+   lat =  40.0150 + rnorm(10000),
+  lng = -105.2705 + rnorm(10000),
+  kidsPerHousehold = sample(x = 1:5, size = 10000, replace = TRUE),
+  temp = sample(x = 20:100, size = 10000, replace = TRUE)
+)
+leaflet::leaflet(kids_df, width = 600, height = 300) %>% 
+  addTiles() %>% 
+  add_hexbin(
+    radius = 19, 
+    lowEndColor = "yellow", 
+    highEndColor="red",
+    sizeSummaryFunction = "count",
+    sizevar = "kidsPerHousehold"
+    ) %>% 
+  add_hexbin(
+    data = temp_df,
+    radius = 19, 
+    lowEndColor = "white", 
+    highEndColor="red",
+    sizeSummaryFunction = "mean",
+    sizevar = "temp"
+    ) %>% 
+  add_hexbin(
+    data = both_df,
+    radius = 18, 
+    lowEndColor = "white", 
+    highEndColor="darkgreen",
+    sizeSummaryFunction = "sum",
+    sizevar = "kidsPerHousehold",
+    colorSummaryFunction = "median",
+    colorvar = "temp"
+    )
+```
+
 
