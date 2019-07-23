@@ -10,6 +10,7 @@ date: "July 15, 2019"
 
 * win-builder
 * linux server
+* mac
 
 
 ## R CMD check results

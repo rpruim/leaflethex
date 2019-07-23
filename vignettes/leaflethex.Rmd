@@ -24,11 +24,11 @@ library(dplyr)
 
 `Leaflethex` is primarily a proof of concept for rendering leafletJS functionality in R by running the javascript though an htmlwidget.
 
-It also contains a function `add_hexbin()` for applying a hexbin layer to a leaflet map
+It also contains a function `addHexbin()` for applying a hexbin layer to a leaflet map
 
 ## How to use leaflethex for the Hexbin Layer
 
-If you are interested in using the hexbin plugin that comes along with leaflethex, the function `add_hexbin()` can be used which has a similar API to the rest of the Leaflet R functions that add layers to leaflet maps such as addCircles, addMarkers, etc.
+If you are interested in using the hexbin plugin that comes along with leaflethex, the function `addHexbin()` can be used which has a similar API to the rest of the Leaflet R functions that add layers to leaflet maps such as addCircles, addMarkers, etc.
 
 Here is an example:
 
@@ -39,17 +39,17 @@ data_points <- tibble(
   lng = -85.6681 + rnorm(1000)
 )
 # Create map with data points
-leaflet::leaflet(data_points) %>% addTiles() %>% add_hexbin()
+leaflet::leaflet(data_points) %>% addTiles() %>% addHexbin()
 ```
 
-## Features of add_hexbin()
+## Features of addHexbin()
 
 
 There are many parameters to modify the appearance of the hexbin layer. Some variable elements include radius, opacity, color etc.
 
 The data can also be specified with a parameter to be different than the map's data.
 
-For a more complete description of `add_hexbin()`, see the Reference tab
+For a more complete description of `addHexbin()`, see the Reference tab
 
 For example,
 
@@ -64,8 +64,8 @@ data_points2 <- tibble(
 )
 leaflet::leaflet(data_points) %>% 
          addTiles() %>% 
-         add_hexbin() %>% 
-         add_hexbin(data=data_points2, 
+         addHexbin() %>% 
+         addHexbin(data=data_points2, 
                     lowEndColor="yellow", 
                     highEndColor="red")
 ```
@@ -90,7 +90,7 @@ leaflet::leaflet(data_points) %>%
 #. Add a single function that takes `map` as its first parameter and returns it as the return value
 
     ```{r eval = FALSE}
-      add_hexbin <- function(map, data = NULL) {
+      addHexbin <- function(map, data = NULL) {
         data <- if(is.null(data)) leaflet::getMapData(map)
         map
       }
