@@ -22,10 +22,10 @@
 #' @note If colorSummaryFunction and colorvar are not specified, the color will mirror the sizevar unless uniform color set to TRUE.
 #' @examples
 #' leaflet::leaflet(data.frame(lat =  42.9634 + rnorm(1000),lng = -85.6681 + rnorm(1000))) %>%
-#' addTiles() %>% add_hexbin()
+#' addTiles() %>% addHexbin()
 #'
 #' leaflet::leaflet(data.frame(lat =  42.9634 + rnorm(1000),lng = -85.6681 + rnorm(1000))) %>%
-#' addTiles() %>% add_hexbin(radius=25, lowEndColor='purple', highEndColor='orange')
+#' addTiles() %>% addHexbin(radius=25, lowEndColor='purple', highEndColor='orange')
 #' @export
 #'
 #'

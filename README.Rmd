@@ -48,14 +48,14 @@ df = tibble(
 )
 map <- leaflet::leaflet(df) %>% 
   leaflet::addTiles() %>% 
-  leaflethex::add_hexbin(
+  leaflethex::addHexbin(
     radius = 19, 
     lowEndColor = "yellow", 
     highEndColor="red")
 map
 ```
 
-## Parameters for add_hexbin
+## Parameters for addHexbin
 
 * `data` - data frame or tibble - alternate data to use for this hexbin instead of default map data
 * `radius` - numeric - choose the base size for the hexagons

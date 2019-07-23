@@ -47,5 +47,5 @@ leaflet(df2, width = 600, height = 300) %>%
 
 ```{r}
 args(addJS)
-args(add_hexbin)
+args(addHexbin)
 ```

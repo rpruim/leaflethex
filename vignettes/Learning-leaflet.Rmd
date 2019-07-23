@@ -48,21 +48,21 @@ df4 <- tibble(
 ```{r}
 leaflet::leaflet(df, width = 600, height = 300) %>% 
   addTiles() %>% 
-  add_hexbin(
+  addHexbin(
     radius = 19, 
     lowEndColor = "yellow", 
     highEndColor="red") %>%
-  add_hexbin(
+  addHexbin(
     data = df2,
     radius = 16, 
     lowEndColor = "lightblue", 
     highEndColor="purple") %>%
-  add_hexbin(
+  addHexbin(
     data = df3,
     uniformSize = TRUE,
     lowEndColor = 'yellow',
     highEndColor = 'red') %>%
-  add_hexbin(
+  addHexbin(
     data = df4,
     uniformColor = 'green',
     radius = 18)
@@ -90,14 +90,14 @@ both_df <- tibble(
 )
 leaflet::leaflet(kids_df, width = 600, height = 300) %>% 
   addTiles() %>% 
-  add_hexbin(
+  addHexbin(
     radius = 19, 
     lowEndColor = "yellow", 
     highEndColor="red",
     sizeSummaryFunction = "count",
     sizevar = "kidsPerHousehold"
     ) %>% 
-  add_hexbin(
+  addHexbin(
     data = temp_df,
     radius = 19, 
     lowEndColor = "white", 
@@ -105,7 +105,7 @@ leaflet::leaflet(kids_df, width = 600, height = 300) %>%
     sizeSummaryFunction = "mean",
     sizevar = "temp"
     ) %>% 
-  add_hexbin(
+  addHexbin(
     data = both_df,
     radius = 18, 
     lowEndColor = "white", 
