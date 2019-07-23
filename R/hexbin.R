@@ -29,7 +29,7 @@
 #' @export
 #'
 #'
-add_hexbin <-
+addHexbin <-
   function(map,
            data = NULL,
            radius = 12,

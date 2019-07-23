@@ -100,13 +100,6 @@ function(el, x, data = null) {
     }
   };
 
-  //console.log("Options");
-  //console.log(options);
-  //console.log("MapData");
-  //console.log(data.mapData);
-  //console.log("Full Data");
-  //console.log(data);
-
   // Add Options to hexlayer
   var hexLayer = L.hexbinLayer(options).addTo(this);
 
