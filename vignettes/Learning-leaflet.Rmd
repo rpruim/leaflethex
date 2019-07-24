@@ -29,8 +29,8 @@ df <- tibble(
 )
 
 df2 <- tibble(
-  lat =  42.9634 + rnorm(10000),
-  lng = -85.6681 + rnorm(10000)
+  lat =  42.9634 + rnorm(1000),
+  lng = -85.6681 + rnorm(1000)
 )
 
 df3 <- tibble(
@@ -39,8 +39,8 @@ df3 <- tibble(
 )
 
 df4 <- tibble(
-  lat =  30.2460 + rnorm(10000),
-  lng = -87.7008 + rnorm(10000)
+  lat =  30.2460 + rnorm(1000),
+  lng = -87.7008 + rnorm(1000)
 )
 ```
 
@@ -73,20 +73,20 @@ leaflet::leaflet(df, width = 600, height = 300) %>%
 
 ```{r}
 kids_df <- tibble(
-  lat =  33.2460 + rnorm(10000),
-  lng = -89.7008 + rnorm(10000),
-  kidsPerHousehold = sample(x = 1:5, size = 10000, replace = TRUE)
+  lat =  33.2460 + rnorm(1000),
+  lng = -89.7008 + rnorm(1000),
+  kidsPerHousehold = sample(x = 1:5, size = 1000, replace = TRUE)
 )
 temp_df <- tibble(
-  lat =  42.2460 + rnorm(10000),
-  lng = -87.7008 + rnorm(10000),
-  temp = sample(x = 20:100, size = 10000, replace = TRUE)
+  lat =  42.2460 + rnorm(1000),
+  lng = -87.7008 + rnorm(1000),
+  temp = sample(x = 20:100, size = 1000, replace = TRUE)
 )
 both_df <- tibble(
-   lat =  40.0150 + rnorm(10000),
-  lng = -105.2705 + rnorm(10000),
-  kidsPerHousehold = sample(x = 1:5, size = 10000, replace = TRUE),
-  temp = sample(x = 20:100, size = 10000, replace = TRUE)
+   lat =  40.0150 + rnorm(1000),
+  lng = -105.2705 + rnorm(1000),
+  kidsPerHousehold = sample(x = 1:5, size = 1000, replace = TRUE),
+  temp = sample(x = 20:100, size = 1000, replace = TRUE)
 )
 leaflet::leaflet(kids_df, width = 600, height = 300) %>% 
   addTiles() %>% 
