@@ -1,5 +1,5 @@
 Package: leaflethex
-Title: Hexbin Layers for Leaflet Maps
+Title: Hexbin Layers for 'Leaflet' Maps
 Version: 0.1.0
 Authors@R: 
     c(person(given = "Randall",
@@ -11,7 +11,10 @@ Authors@R:
             family = "Klaassen",
             role = c("aut", "cre"),
             email = "jasonucc12@gmail.com"))
-Description: Adds functionality for hexbin layers to leaflet maps.
+Description: Adds functionality for hexbin layers to 'leaflet' maps. There is a javascript 
+    library for this hexbin function already so this package creates an R interface for using
+    that library to make it much easier to access. This package is intended to be a plugin for
+    'leaflet' and the API attempts to mirror 'leaflet' style.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
