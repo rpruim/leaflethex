@@ -4,6 +4,14 @@ author: "Jason Klaassen"
 date: "July 15, 2019"
 ---
 
+## Resubmission ------
+
+This is a re-submission
+
+* added single quotes to software and API names in title and description
+* made description field in the DESCRIPTION file longer
+
+## -------------------
 
 
 ## Test environments
