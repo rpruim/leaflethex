@@ -14,8 +14,7 @@
 #'   takes for drawing the hexagons
 #' @param lowEndColor choose the color for the smaller hexagons
 #' @param highEndColor choose the color for the larger hexagons
-#' @param uniformSize boolean for having uniformly sized hexagons or smaller
-#'   hexagons for area containing fewer data points
+#' @param uniformSize a logical indicating whether all hexagons should be the same size.
 #' @param uniformColor a color that overrides lowEndColor and highEndColor to
 #'   make the color uniform across the hexagon sizes.
 #' @param sizeSummaryFunction a string that specifies which summary function
@@ -34,7 +33,7 @@
 #' @return map parameter, but with the hexbinLayer attached so that it can be
 #'   used with the `%>%` pipe operator
 #' @note If colorSummaryFunction and colorvar are not specified,
-#'   the color will mirror the sizevar unless uniform color set to TRUE.
+#'   the color will mirror the sizevar unless uniform color set to `TRUE`.
 #' @examples
 #' leaflet::leaflet(data.frame(lat =  42.9634 + rnorm(1000),lng = -85.6681 + rnorm(1000))) %>%
 #' addTiles() %>% addHexbin()
@@ -63,7 +62,7 @@ addHexbin <-
     colorSummaryFunction <- match.arg(colorSummaryFunction)
     # Build MapData from given data or mapData if none provided
     mapData <- if(!is.null(data)) data else leaflet::getMapData(map)
-    if(uniformSize && is.null(uniformColor)) {
+    if(uniformSize && !is.null(uniformColor)) {
       warning("Using uniformSize and uniformColor together will not provide any insights into the data")
     }
 
@@ -87,7 +86,8 @@ addHexbin <-
     # warnOfCustomFunctions(colorSummaryFunction)
 
     # Display warning that both variables are unset
-    if(is.null(sizevar) && is.null(colorvar)) {
+    if(is.null(sizevar) && is.null(colorvar) &&
+       (sizeSummaryFunction != "count" || colorSummaryFunction != "count")) {
       line1 <- "No variables have been set for sizevar or colorvar."
       line2 <- "The hexbin will calculate a simple count of data points per hex"
       warning(paste(line1, line2))

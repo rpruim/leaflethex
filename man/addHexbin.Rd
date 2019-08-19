@@ -30,8 +30,7 @@ takes for drawing the hexagons}
 
 \item{highEndColor}{choose the color for the larger hexagons}
 
-\item{uniformSize}{boolean for having uniformly sized hexagons or smaller
-hexagons for area containing fewer data points}
+\item{uniformSize}{a logical indicating whether all hexagons should be the same size.}
 
 \item{uniformColor}{a color that overrides lowEndColor and highEndColor to
 make the color uniform across the hexagon sizes.}
@@ -62,7 +61,7 @@ Do not use uniformColor and uniformSize together as it will not give any
 insights to the data
 
 If colorSummaryFunction and colorvar are not specified,
-the color will mirror the sizevar unless uniform color set to TRUE.
+the color will mirror the sizevar unless uniform color set to \code{TRUE}.
 }
 \examples{
 leaflet::leaflet(data.frame(lat =  42.9634 + rnorm(1000),lng = -85.6681 + rnorm(1000))) \%>\%
