@@ -19,12 +19,12 @@
 #'   make the color uniform across the hexagon sizes.
 #' @param sizeSummaryFunction a string that specifies which summary function
 #'   to use on sizevar to modulate the size of the hexagons.
-#'   The options are 'count', 'max', 'min', 'mean', and 'median'.
+#'   The options are 'count', 'sum', 'max', 'min', 'mean', and 'median'.
 #' @param sizevar a string that specifies which variable in the user specified
 #'   data frame will be used to calculate the size of the hexagons.
 #' @param colorSummaryFunction a string that specifies which summary function
 #'   to use on colorvar to modulate the color of the hexagons.
-#'   The options are 'count', 'max', 'min', 'mean', and 'median'.
+#'   The options are 'count', 'sum', 'max', 'min', 'mean', and 'median'.
 #' @param colorvar a string that specifies which variable in the user specified
 #'   data frame will be used to calculate the color of the hexagons.
 #' @note Do not use uniformColor and uniformSize together as it will not give any
