@@ -7,8 +7,9 @@
 addHexbin(map, data = NULL, radius = 12, opacity = 0.5,
   duration = 500, lowEndColor = "white", highEndColor = "blue",
   uniformSize = FALSE, uniformColor = NULL,
-  sizeSummaryFunction = "count", sizevar = NULL,
-  colorSummaryFunction = "count", colorvar = NULL)
+  sizeSummaryFunction = c("count", "sum", "max", "min", "mean",
+  "median"), sizevar = NULL, colorSummaryFunction = c("count", "sum",
+  "max", "min", "mean", "median"), colorvar = NULL)
 }
 \arguments{
 \item{map}{The leaflet map object to apply the hexbin layer to. Makes this function compatible with the \code{\%>\%} operator}

@@ -39,11 +39,13 @@ addHexbin <-
            highEndColor = "blue",
            uniformSize = FALSE,
            uniformColor = NULL,
-           sizeSummaryFunction = "count",
+           sizeSummaryFunction = c("count", "sum", "max", "min", "mean", "median"),
            sizevar = NULL,
-           colorSummaryFunction = "count",
+           colorSummaryFunction = c("count", "sum", "max", "min", "mean", "median"),
            colorvar = NULL) {
 
+    sizeSummaryFunction  <- match.arg(sizeSummaryFunction)
+    colorSummaryFunction <- match.arg(colorSummaryFunction)
     # Build MapData from given data or mapData if none provided
     mapData <- if(!is.null(data)) data else leaflet::getMapData(map)
     if(uniformSize && is.null(uniformColor)) {
@@ -54,20 +56,20 @@ addHexbin <-
     addHex <- pluginFactory("Hexbin", system.file("js", "", package = "leaflethex"), "hexbin.js", "deps.js", "hexbin.css")
     supportedFunctions <- list("count", "sum", "max", "min", "mean", "median")
     # Display warning about unsupported functions
-    warnOfCustomFunctions <- function(summaryFunction) {
-      # Check if the function is supported
-      if(! (summaryFunction %in% supportedFunctions)) {
-        warnStart <- "The function provided was not a supported function ("
-        supportedFunctionsString <- paste(supportedFunctions, collapse="  ")
-        warnCustomFunctionMessage <- "). Custom functions must be valid JS functions of the form: "
-        warnFunctionTemplate <- "'function(d) { //Calculate and Return Value }'"
-        warning(paste(warnStart, supportedFunctionsString, warnCustomFunctionMessage, warnFunctionTemplate, sep=""))
-      }
-    }
+    # warnOfCustomFunctions <- function(summaryFunction) {
+    #   # Check if the function is supported
+    #   if(! (summaryFunction %in% supportedFunctions)) {
+    #     warnStart <- "The function provided was not a supported function ("
+    #     supportedFunctionsString <- paste(supportedFunctions, collapse="  ")
+    #     warnCustomFunctionMessage <- "). Custom functions must be valid JS functions of the form: "
+    #     warnFunctionTemplate <- "'function(d) { //Calculate and Return Value }'"
+    #     warning(paste(warnStart, supportedFunctionsString, warnCustomFunctionMessage, warnFunctionTemplate, sep=""))
+    #   }
+    # }
 
-    # Display for both summary functions
-    warnOfCustomFunctions(sizeSummaryFunction)
-    warnOfCustomFunctions(colorSummaryFunction)
+    # # Display for both summary functions
+    # warnOfCustomFunctions(sizeSummaryFunction)
+    # warnOfCustomFunctions(colorSummaryFunction)
 
     # Display warning that both variables are unset
     if(is.null(sizevar) && is.null(colorvar)) {
@@ -94,7 +96,7 @@ addHexbin <-
     # Ensure the data passed to the JS script is a JSON object
     class(mapData) <- "options"
     # Pipe the Hexbin into the map
-    map %>% addHex(data=mapData,
+    map %>% addHex(data = mapData,
                    radius = radius,
                    opacity = opacity,
                    duration = duration,
