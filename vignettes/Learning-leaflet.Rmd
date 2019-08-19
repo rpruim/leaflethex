@@ -71,11 +71,18 @@ leaflet::leaflet(df, width = 600, height = 300) %>%
 
 ## Calculating the Hexbin with data other than the latitude and longitude
 
+By default, `addHexbin()` uses hexagans to represent counts -- the number of
+latitude/longitude pairs in each hexagonal bin. It is also possible to represent
+the value of a summary function applied to some variable in the data. Summary
+functions currently supported are min, max, mean, and median. To use a summary
+function, simply supply the summary function and the name of the variable containing
+the data to summarize.
+
 ```{r}
 kids_df <- tibble(
   lat =  33.2460 + rnorm(1000),
   lng = -89.7008 + rnorm(1000),
-  kidsPerHousehold = sample(x = 1:5, size = 1000, replace = TRUE)
+  sample_size = sample(x = 1:5, size = 1000, replace = TRUE)
 )
 temp_df <- tibble(
   lat =  42.2460 + rnorm(1000),
@@ -85,7 +92,7 @@ temp_df <- tibble(
 both_df <- tibble(
    lat =  40.0150 + rnorm(1000),
   lng = -105.2705 + rnorm(1000),
-  kidsPerHousehold = sample(x = 1:5, size = 1000, replace = TRUE),
+  sample_size = sample(x = 1:5, size = 1000, replace = TRUE),
   temp = sample(x = 20:100, size = 1000, replace = TRUE)
 )
 leaflet::leaflet(kids_df, width = 600, height = 300) %>% 
@@ -94,8 +101,8 @@ leaflet::leaflet(kids_df, width = 600, height = 300) %>%
     radius = 19, 
     lowEndColor = "yellow", 
     highEndColor="red",
-    sizeSummaryFunction = "count",
-    sizevar = "kidsPerHousehold"
+    sizeSummaryFunction = "sum",
+    sizevar = "sample_size"
     ) %>% 
   addHexbin(
     data = temp_df,
@@ -111,7 +118,7 @@ leaflet::leaflet(kids_df, width = 600, height = 300) %>%
     lowEndColor = "white", 
     highEndColor="darkgreen",
     sizeSummaryFunction = "sum",
-    sizevar = "kidsPerHousehold",
+    sizevar = "sample_size",
     colorSummaryFunction = "median",
     colorvar = "temp"
     )
