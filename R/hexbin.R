@@ -67,30 +67,25 @@ addHexbin <-
     }
 
     # Create the Hexbin Plugin
-    addHex <- pluginFactory("Hexbin", system.file("js", "", package = "leaflethex"), "hexbin.js", "deps.js", "hexbin.css")
-    supportedFunctions <- list("count", "sum", "max", "min", "mean", "median")
-    # Display warning about unsupported functions
-    # warnOfCustomFunctions <- function(summaryFunction) {
-    #   # Check if the function is supported
-    #   if(! (summaryFunction %in% supportedFunctions)) {
-    #     warnStart <- "The function provided was not a supported function ("
-    #     supportedFunctionsString <- paste(supportedFunctions, collapse="  ")
-    #     warnCustomFunctionMessage <- "). Custom functions must be valid JS functions of the form: "
-    #     warnFunctionTemplate <- "'function(d) { //Calculate and Return Value }'"
-    #     warning(paste(warnStart, supportedFunctionsString, warnCustomFunctionMessage, warnFunctionTemplate, sep=""))
-    #   }
-    # }
+    addHex <-
+      pluginFactory(
+        "Hexbin",
+        system.file("js", "", package = "leaflethex"),
+        "hexbin.js", "deps.js", "hexbin.css")
 
-    # # Display for both summary functions
-    # warnOfCustomFunctions(sizeSummaryFunction)
-    # warnOfCustomFunctions(colorSummaryFunction)
-
-    # Display warning that both variables are unset
-    if(is.null(sizevar) && is.null(colorvar) &&
-       (sizeSummaryFunction != "count" || colorSummaryFunction != "count")) {
-      line1 <- "No variables have been set for sizevar or colorvar."
-      line2 <- "The hexbin will calculate a simple count of data points per hex"
+    # Display warning if variables unset and function != "count"
+    if(is.null(sizevar) && sizeSummaryFunction != "count") {
+      line1 <- "`sizevar' must be set if using a summary function other than \"count\""
+      line2 <- "The hexbin will calculate a simple count of data points per hex."
       warning(paste(line1, line2))
+      sizeSummaryFunction  <- "count"
+    }
+    # Display warning if variables unset and function != "count"
+    if(is.null(colorvar) && colorSummaryFunction != "count") {
+      line1 <- "`colorvar' must be set if using a summary function other than \"count\""
+      line2 <- "The hexbin will calculate a simple count of data points per hex."
+      warning(paste(line1, line2))
+      colorSummaryFunction  <- "count"
     }
 
     # Throw error if the variable chosen is not present in the data frame
