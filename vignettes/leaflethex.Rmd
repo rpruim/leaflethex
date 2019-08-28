@@ -82,7 +82,7 @@ javascript code via `pluginFactory()`. To modify existing javascript
 code that modfies a leaflet map so that it can be used from within R
 using the leaflet R package 
 
-#. Make a copy the JS code that modifies a map object. 
+#. Load the JS code that modifies a map object. 
 
     Place this code in a new file and place the file in a new folder. (In the example below, this file will be called `example.js`.)
 #. Edit the JS code to replace any reference of `map` with the keyword `this` so that the loaded plugin can attach to the given map instead of creating a new map. 
@@ -106,23 +106,8 @@ using the leaflet R package
       leaflet::leaflet() %>% addTiles() %>% new_plugin()
     ```
 
-## A More In-Depth Look at how JS Code is loaded into R
+## Step by Step how to create a new plugin with the generic function `pluginFactory()`
 
-#. In R
-
-    a. Create a new R script `add_plugin_name.R`
-    a. In this file, create a single function that takes `map` as its first argument and returns it as the return value.
-
-        ```{r eval = FALSE}
-        # in add_plugin_name.R  
-        addHexbin <- function(map, data = NULL) {
-          data <- if(is.null(data)) leaflet::getMapData(map)
-          map
-        }
-        ```
-
-    c. Add the leaflet-esri.R file to the R directory or copy its functions into the new R file
-    
 #. In javascript
 
     a. Copy the javascript code into a .js file then wrap the code in a `function()` as below
@@ -136,70 +121,54 @@ using the leaflet R package
     b. Now modify this file to use the data argument as needed, this argument will be used for data points but also mapping options like radius or color or anything else one needs to pass into the js function.
 
 
-#. Back in R.
+#. In R.
 
-    a. create a plugin with the `createPlugin()` function.
+    a. create a plugin with the `pluginFactory()` function.
 
         ```{r eval=FALSE}
-        # Load JS plugin - Hexbin Example
-        hexbinPlugin <- 
-          createPlugin(
-            "Hexbin", "1.0.0", # Name and Version
-            # Parent folder of the dependencies and stylesheets
-            src = system.file("js", "", package = "leaflethex"), 
-            script = "deps.js", # JS File containing the dependencies
-            stylesheet = "hexbin.css") 
+        addPluginName <-
+            pluginFactory(
+                    "Name of Plugin",
+                    system.file("folder_containing_js_file", ""),
+                    "name_of_file.js", 
+                    "dependencies_required.js", 
+                    "stylesheet_for_js.css")
         ```
+        
+        When adding style sheets, make sure the .css file is in the same location as the js folder
     
-    b. Load the JS code created earlier into a string.
-
-        ``` {r eval = FALSE}
-          hexbinJS <- 
-            readr::read_file(system.file("js", "hexbin.js", package = "leaflethex"))
-        ```
-
-    c. Apply the plugin to the map argument and render the Javascript in the recently created string with the `onRender()` function
+    a. Apply the plugin to the map
 
         ```{r eval=FALSE}
-          # Pipe the the plugin into the given map
-          map <- map %>%
-          registerPlugin(hexbinPlugin) %>%
-            # Add your custom JS logic here. The `this` keyword
-            # refers to the Leaflet (JS) map object.
-            onRender(hexbinJS, data = mapData)
-          map  # show the map
+          map %>% addPluginName(data = mapData,
+                                radius = radius,
+                                opacity = opacity,
+                                duration = duration,
+                                lowEndColor = lowEndColor,
+                                highEndColor = highEndColor)
         ```
+        Using the leaflethex plugin parameters as an example, any parameters passed in to the addPluginName() function will be taken as dots and translated into a JSON object in the javascript side.
 
-
-#. To pass Data from R to JS, create an S3 "options" object with the desired data.
-
-    ```{r eval=FALSE}
-       # Build mapData from given data or mapData if none provided
-       mapData <- 
-         if(!is.null(data)) {
-           data
-         } else {
-           leaflet::getMapData(map)
-         }
-       # Add arguments to be passed to the JS plugin
-       mapData <- 
-         list(
-           mapData = mapData,
-           radius = radius,
-           opacity = opacity, 
-           duration = duration,
-           lowEndColor = lowEndColor,
-           highEndColor = highEndColor
-       )
-       # This following is necessary to pass the object as a JSON object 
-       # instead of a JSON Array. This is much easier to deal with on the JS side.
-       class(mapData) <- "options" 
-    ```
-
-    a. As shown above, this object should be passed as the data argument of `onRender()`.
-
-    b. The object appears in the JS World as a JSON Object
+    a. The object appears in the JS World as a JSON Object named `data`
 
     ![JS-Data](jsdata.png)
+    
+#. Differences between creating the plugin locally and creating a new package
+    
+    When simply creating the plugin and running it locally the `pluginFactory()` will work as expected in this example; however, when creating a package there are a few things that need tweaking:
+    
+      a. Any time `system.file()` is used, the `package` parameter must be set to the new package like so:
+      
+        ```{r eval=FALSE}
+        addPluginName <-
+            pluginFactory(
+                    "Name of Plugin",
+                    system.file("folder_containing_js_file", "", package = "your_package_name"), # Add the package parameter
+                    "name_of_file.js", 
+                    "dependencies_required.js", 
+                    "stylesheet_for_js.css")
+        ```
+      
+      a. Secondly, the js folder must be inside the `inst` folder in order to be installed when the package is installed, otherwise Rstudio will complain that the js folder doesn't exist.
 
 
