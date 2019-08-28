@@ -31,7 +31,13 @@
 #'   addJS(radius = 20, highEndColor = "yellow")
 #'
 #' @export
-pluginFactory <- function(name = "JSPlugin", location, jsfilename, dependencies, stylesheet = NULL) {
+pluginFactory <-
+  function(
+    name = "JSPlugin",
+    location,
+    jsfilename,
+    dependencies,
+    stylesheet = NULL) {
 
   # Create a HtmlDependency with the given files
   plugin <- createPlugin(name,
