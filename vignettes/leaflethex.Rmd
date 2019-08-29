@@ -106,7 +106,7 @@ using the leaflet R package
       leaflet::leaflet() %>% addTiles() %>% new_plugin()
     ```
 
-## Step by Step how to create a new plugin with the generic function `pluginFactory()`
+## Step by Step how to create a new plugin with `pluginFactory()`
 
 #. In javascript
 
